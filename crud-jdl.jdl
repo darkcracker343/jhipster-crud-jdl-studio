@@ -1,0 +1,205 @@
+
+
+entity Persona{
+idPersona Integer
+primerNombre String
+segundoNombre String
+primerApellido String
+segundoApellido String
+perfil String
+categoria String
+codigo Long
+descripcion String
+}
+
+entity Usuariospersonas{
+idPersona Integer
+idUsuario Integer
+}
+
+entity Usuarios{
+idUsuario Integer
+nombreUs String
+contrasena String
+email String
+}
+
+entity Roles{
+idRol Integer
+nombreRol String
+acceso String 
+}
+
+entity Rolesusuarios{
+idUsuario Integer 
+idRol Integer
+origen String
+}
+
+entity RegistrosAutoevaluaciones{
+idAutoev Integer
+idUsuario Integer
+idParametro Integer
+idVerificador Integer
+idSub Integer
+idTecnica Integer
+idFuente Integer
+observacion String
+}
+
+entity Autoevaluaciones{
+idAutoev Integer
+ano String
+etapaAno String 
+avance String
+estado String
+}
+
+entity Tecnicasevaluativas{
+idTecnica Integer
+codigo String 
+descripcion String 
+estado String
+}
+
+entity Fuentesreferenciales{
+idFuente Integer
+codigo String
+descripcion String 
+estado String 
+}
+
+entity Registrosupervisiones{
+idSuperv Integer
+idUsuario Integer
+idParametro Integer
+idVerificador Integer
+idSub Integer
+idTecnica Integer
+idFuente Integer
+observacion String
+}
+
+entity Supervisiones{
+idSuperv Integer
+ano String 
+periodo String
+entidad String 
+tipoEntidad String 
+autodeclaracion String 
+}
+
+entity Parametros{
+idParametro Integer
+periodo String 
+evaluacionesAno String
+puntuacion String
+rangosValoracion String
+tiposistema String
+
+}
+
+entity Macroprocesos{
+idMacro Integer
+codigo String
+descripcion String 
+grupo String 
+estado String 
+}
+
+entity Procesos{
+idProcesos Integer
+idMacro Integer
+codigo String 
+descripcion String
+estado String
+}
+
+entity Subprocesos{
+idSub Integer
+idProceso Integer
+idMacro Integer
+codigo String
+descripcion String
+estado String
+}
+
+entity Verificadores{
+idVerificador Integer
+idMacro Integer
+idProceso Integer
+idSub Integer
+codigo String
+descripcion String 
+estado String
+}
+
+relationship OneToMany {
+Persona to Usuariospersonas{persona}
+}
+
+relationship OneToMany {
+Usuarios to Usuariospersonas{usuarios},
+
+Rolesusuarios to
+
+Usuarios{rolesusuarios}
+}
+
+relationship OneToMany {
+Roles to Rolesusuarios{roles}
+}
+
+relationship OneToMany{
+Usuarios to RegistrosAutoevaluaciones{usuarios},
+
+Registrosupervisiones to
+
+Usuarios{registrosupervisiones},
+
+Verificadores to RegistrosAutoevaluaciones{verificadores}
+}
+
+relationship OneToMany{
+Autoevaluaciones to RegistrosAutoevaluaciones{autoevaluaciones},
+
+Tecnicasevaluativas to
+
+RegistrosAutoevaluaciones{tecnicasevaluativas},
+
+Fuentesreferenciales to
+
+RegistrosAutoevaluaciones{fuentesreferenciales}
+
+}
+
+relationship OneToMany{
+Supervisiones to Registrosupervisiones{supervisiones},
+
+Tecnicasevaluativas to
+
+Registrosupervisiones{tecnicasevaluativas},
+
+Fuentesreferenciales to
+
+Registrosupervisiones{fuentesreferenciales},
+
+Parametros to Registrosupervisiones{parametros},
+
+Parametros to RegistrosAutoevaluaciones{parametros},
+
+Verificadores to Registrosupervisiones{verificadores}
+}
+
+relationship OneToMany{
+Macroprocesos to Procesos{macroprocesos},
+
+Macroprocesos to Subprocesos{macroprocesos}
+}
+
+relationship OneToMany{
+Subprocesos to RegistrosAutoevaluaciones{subprocesos}
+}
+
+
+
